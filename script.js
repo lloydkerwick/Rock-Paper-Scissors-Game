@@ -30,6 +30,21 @@ function autoPlay() {
   }
 }
 
+function resetGame() {
+  document.querySelector('.reset-game-button').addEventListener('click', () => {
+    score = {
+      wins: 0,
+      losses: 0,
+      ties: 0,
+    }
+    localStorage.removeItem('score');
+    updateScoreElement();
+
+    document.querySelector('.js-result').innerHTML = '';
+    document.querySelector('.js-moves').innerHTML = '';
+  })
+}
+
 document.querySelector('.js-rock-button')
 .addEventListener('click', () => {
   playGame('rock')
@@ -56,6 +71,7 @@ document.body.addEventListener('keydown', (event) => {
 })
 
 // Object storing all possible outcomes based on player and computer moves in nested object.
+// Delcared outside the function since globally scoped. 
 const outcomes = {
   rock: { rock: 'Tie.', paper: 'You lose.', scissors: 'You win.' },
   paper: { rock: 'You win.', paper: 'Tie.', scissors: 'You lose.' },
@@ -110,3 +126,5 @@ function pickComputerMove() {
 
   return computerMove;
 }
+
+resetGame();
