@@ -15,28 +15,39 @@ let intervalId;
 
 function autoPlay() { 
   const autoPlayButton = document.querySelector('.auto-play-button');
-  if (!isAutoPlaying) {
-    intervalId = setInterval(() => { 
-      const playerMove = pickComputerMove(); 
-      playGame(playerMove);
-    }, 1000);
-    isAutoPlaying = true;
-    autoPlayButton.textContent = 'Stop Auto Play'
 
-  } else {
-    clearInterval(intervalId);
-    isAutoPlaying = false;
-    autoPlayButton.textContent = "Auto Play"
+    if (!isAutoPlaying) {
+      intervalId = setInterval(() => { 
+        const playerMove = pickComputerMove(); 
+        playGame(playerMove);
+      }, 1000);
+      isAutoPlaying = true;
+      autoPlayButton.textContent = 'Stop Auto Play'
+  
+    } else {
+      clearInterval(intervalId);
+      isAutoPlaying = false;
+      autoPlayButton.textContent = "Auto Play"
+    }
   }
-}
+
+  document.querySelector('.auto-play-button').addEventListener('click', autoPlay);
 
 function resetGame() {
   document.querySelector('.reset-game-button').addEventListener('click', () => {
+
+    if (isAutoPlaying) {
+      clearInterval(intervalId);
+      isAutoPlaying = false;
+      document.querySelector('.auto-play-button').textContent = 'Auto Play'
+    }
+
     score = {
       wins: 0,
       losses: 0,
       ties: 0,
     }
+
     localStorage.removeItem('score');
     updateScoreElement();
 
